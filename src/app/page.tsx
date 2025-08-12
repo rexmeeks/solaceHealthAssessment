@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import {Advocate} from "@/app/types/advocate-types";
+import AdvocateTable from "@/app/components/AdvocateTable";
 
+// got rid of the searching for as I think it's redundant considering if when the user types the table changes
+// it should be enough to communicate to the user that what's in the box is what they're searching for
 export default function Home() {
-  const [advocates, setAdvocates] = useState([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState([]);
+  const [advocates, setAdvocates] = useState<Array<Advocate> | []>([]);
+  const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const [filteredAdvocates, setFilteredAdvocates] = useState<Array<Advocate>>([]);
 
   useEffect(() => {
     console.log("fetching advocates...");
@@ -16,21 +21,26 @@ export default function Home() {
     });
   }, []);
 
+  // todo speed this up potentially, but for starters this should be fine
+  const searchTermFoundInSpecialties = (specialties: Array<string>, searchTerm: string): boolean => {
+    return specialties.some(specialty => specialty.toLocaleLowerCase().includes(searchTerm));
+  }
+
   const onChange = (e) => {
     const searchTerm = e.target.value;
+    // don't even think we necessarily need this since I removed it from displaying
+    setSearchTerm(searchTerm.toLocaleLowerCase());
 
-    document.getElementById("search-term").innerHTML = searchTerm;
-
+    // todo maybe separate out the years of experience
     console.log("filtering advocates...");
-    // todo typing issue, define object type yearsOfExperience is a number, so you can't just do include here
     const filteredAdvocates = advocates.filter((advocate) => {
       return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
+        advocate.firstName.toLocaleLowerCase().includes(searchTerm) ||
+        advocate.lastName.toLocaleLowerCase().includes(searchTerm) ||
+        advocate.city.toLocaleLowerCase().includes(searchTerm) ||
+        advocate.degree.toLocaleLowerCase().includes(searchTerm) ||
+        searchTermFoundInSpecialties(advocate.specialties, searchTerm) ||
+        (!Number.isNaN(searchTerm) && advocate.yearsOfExperience === Number(searchTerm))
       );
     });
 
@@ -39,6 +49,7 @@ export default function Home() {
 
   const onClick = () => {
     console.log(advocates);
+    setSearchTerm(undefined);
     setFilteredAdvocates(advocates);
   };
 
@@ -49,44 +60,12 @@ export default function Home() {
       <br />
       <div>
         <p>Search</p>
-        <p>
-          Searching for: <span id="search-term"></span>
-        </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
+        <input style={{ border: "1px solid black" }} onChange={onChange} value={searchTerm}/>
         <button onClick={onClick}>Reset Search</button>
       </div>
+      <AdvocateTable filteredAdvocates={filteredAdvocates}/>
       <br />
       <br />
-      <table>
-        <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
-        </thead>
-        <tbody>
-          {filteredAdvocates.map((advocate) => {
-            return (
-              <tr>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
-                  {advocate.specialties.map((s) => (
-                    <div>{s}</div>
-                  ))}
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
     </main>
   );
 }
