@@ -38,12 +38,8 @@ const randomSpecialty = () => {
   return [random1, random2];
 };
 
-// Modified these to have uuid as I would believe that in a normal system if we would want to further do anything with this
-// table data we'd likely need the id of whichever row to perform any sort of backend operations (off the top of my head: retrieving more information
-// on clicking on a row or providing the users an ability to submit a contact form (assuming we'd just use the id to build the url))
 const advocateData = [
   {
-    id: randomUUID(),
     firstName: "John",
     lastName: "Doe",
     city: "New York",
@@ -53,7 +49,6 @@ const advocateData = [
     phoneNumber: 5551234567,
   },
   {
-    id: randomUUID(),
     firstName: "Jane",
     lastName: "Smith",
     city: "Los Angeles",
@@ -63,7 +58,6 @@ const advocateData = [
     phoneNumber: 5559876543,
   },
   {
-    id: randomUUID(),
     firstName: "Alice",
     lastName: "Johnson",
     city: "Chicago",
@@ -73,7 +67,6 @@ const advocateData = [
     phoneNumber: 5554567890,
   },
   {
-    id: randomUUID(),
     firstName: "Michael",
     lastName: "Brown",
     city: "Houston",
@@ -83,7 +76,6 @@ const advocateData = [
     phoneNumber: 5556543210,
   },
   {
-    id: randomUUID(),
     firstName: "Emily",
     lastName: "Davis",
     city: "Phoenix",
@@ -93,7 +85,6 @@ const advocateData = [
     phoneNumber: 5553210987,
   },
   {
-    id: randomUUID(),
     firstName: "Chris",
     lastName: "Martinez",
     city: "Philadelphia",
@@ -103,7 +94,6 @@ const advocateData = [
     phoneNumber: 5557890123,
   },
   {
-    id: randomUUID(),
     firstName: "Jessica",
     lastName: "Taylor",
     city: "San Antonio",
@@ -113,7 +103,6 @@ const advocateData = [
     phoneNumber: 5554561234,
   },
   {
-    id: randomUUID(),
     firstName: "David",
     lastName: "Harris",
     city: "San Diego",
@@ -123,7 +112,6 @@ const advocateData = [
     phoneNumber: 5557896543,
   },
   {
-    id: randomUUID(),
     firstName: "Laura",
     lastName: "Clark",
     city: "Dallas",
@@ -133,7 +121,6 @@ const advocateData = [
     phoneNumber: 5550123456,
   },
   {
-    id: randomUUID(),
     firstName: "Daniel",
     lastName: "Lewis",
     city: "San Jose",
@@ -143,7 +130,6 @@ const advocateData = [
     phoneNumber: 5553217654,
   },
   {
-    id: randomUUID(),
     firstName: "Sarah",
     lastName: "Lee",
     city: "Austin",
@@ -153,7 +139,6 @@ const advocateData = [
     phoneNumber: 5551238765,
   },
   {
-    id: randomUUID(),
     firstName: "James",
     lastName: "King",
     city: "Jacksonville",
@@ -163,7 +148,6 @@ const advocateData = [
     phoneNumber: 5556540987,
   },
   {
-    id: randomUUID(),
     firstName: "Megan",
     lastName: "Green",
     city: "San Francisco",
@@ -173,7 +157,6 @@ const advocateData = [
     phoneNumber: 5559873456,
   },
   {
-    id: randomUUID(),
     firstName: "Joshua",
     lastName: "Walker",
     city: "Columbus",
@@ -183,7 +166,6 @@ const advocateData = [
     phoneNumber: 5556781234,
   },
   {
-    id: randomUUID(),
     firstName: "Amanda",
     lastName: "Hall",
     city: "Fort Worth",

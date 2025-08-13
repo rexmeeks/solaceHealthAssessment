@@ -1,14 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {Advocate} from "@/app/types/advocate-types";
+import { Advocate } from "@/app/types/advocate-types";
 import AdvocateTable from "@/app/components/AdvocateTable";
+import { applyFilters } from "@/app/utils/advocateFilter";
 
 // got rid of the searching for as I think it's redundant considering if when the user types the table changes
 // it should be enough to communicate to the user that what's in the box is what they're searching for
 export default function Home() {
   const [advocates, setAdvocates] = useState<Array<Advocate> | []>([]);
-  const [searchTerm, setSearchTerm] = useState<string | undefined>();
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [yearsFilter, setYearsFilter] = useState<string>('');
   const [filteredAdvocates, setFilteredAdvocates] = useState<Array<Advocate>>([]);
 
   useEffect(() => {
@@ -21,35 +23,27 @@ export default function Home() {
     });
   }, []);
 
-  // todo speed this up potentially, but for starters this should be fine
-  const searchTermFoundInSpecialties = (specialties: Array<string>, searchTerm: string): boolean => {
-    return specialties.some(specialty => specialty.toLocaleLowerCase().includes(searchTerm));
-  }
-
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchTerm = e.target.value;
-    // don't even think we necessarily need this since I removed it from displaying
     setSearchTerm(searchTerm.toLocaleLowerCase());
 
-    // todo maybe separate out the years of experience
     console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.toLocaleLowerCase().includes(searchTerm) ||
-        advocate.lastName.toLocaleLowerCase().includes(searchTerm) ||
-        advocate.city.toLocaleLowerCase().includes(searchTerm) ||
-        advocate.degree.toLocaleLowerCase().includes(searchTerm) ||
-        searchTermFoundInSpecialties(advocate.specialties, searchTerm) ||
-        (!Number.isNaN(searchTerm) && advocate.yearsOfExperience === Number(searchTerm))
-      );
-    });
+    const filtered = applyFilters(advocates, searchTerm.toLocaleLowerCase(), yearsFilter);
+    setFilteredAdvocates(filtered);
+  };
 
-    setFilteredAdvocates(filteredAdvocates);
+  const onYearsFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newYearsFilter = e.target.value;
+    setYearsFilter(newYearsFilter);
+
+    const filtered = applyFilters(advocates, searchTerm, newYearsFilter);
+    setFilteredAdvocates(filtered);
   };
 
   const onClick = () => {
     console.log(advocates);
-    setSearchTerm(undefined);
+    setSearchTerm('');
+    setYearsFilter('');
     setFilteredAdvocates(advocates);
   };
 
@@ -61,7 +55,21 @@ export default function Home() {
       <div>
         <p>Search</p>
         <input style={{ border: "1px solid black" }} onChange={onChange} value={searchTerm}/>
-        <button onClick={onClick}>Reset Search</button>
+        <button className="ml-1 p-1 border hover:bg-[#acdcd0]" onClick={onClick}>Reset Search</button>
+        <div className="mt-2">
+          <label htmlFor="years-filter" className="mr-2">Years of Experience:</label>
+          <select 
+            id="years-filter"
+            value={yearsFilter}
+            onChange={onYearsFilterChange}
+            className="border border-gray-300 p-1"
+          >
+            <option value="">All</option>
+            <option value="0-5">0-5 years</option>
+            <option value="5-10">5-10 years</option>
+            <option value="10+">10+ years</option>
+          </select>
+        </div>
       </div>
       <AdvocateTable filteredAdvocates={filteredAdvocates}/>
       <br />

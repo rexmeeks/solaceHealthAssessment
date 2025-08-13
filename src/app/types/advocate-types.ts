@@ -1,6 +1,6 @@
 
 export type Advocate = {
-    id: string;
+    id: number;
     firstName: string;
     lastName: string;
     city: string;

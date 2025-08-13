@@ -7,7 +7,7 @@ type AdvocateRowProps = {
 // todo maybe change key, but this is probably fine
 const AdvocateRow = ({advocate}: AdvocateRowProps) => {
     return (
-        <tr>
+        <tr className="border">
             <td>{advocate.firstName}</td>
             <td>{advocate.lastName}</td>
             <td>{advocate.city}</td>

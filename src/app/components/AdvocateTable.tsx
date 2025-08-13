@@ -7,17 +7,19 @@ type AdvocateTableProps = {
 
 const AdvocateTable = ({filteredAdvocates}: AdvocateTableProps) => {
     return (
-        <table>
+        <table className="my-2">
             <thead>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>City</th>
-            <th>Degree</th>
-            <th>Specialties</th>
-            <th>Years of Experience</th>
-            <th>Phone Number</th>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>City</th>
+                <th>Degree</th>
+                <th>Specialties</th>
+                <th>Years of Experience</th>
+                <th>Phone Number</th>
+            </tr>
             </thead>
-            <tbody>
+            <tbody className="[&_td]:border-2 [&_td]:p-1">
             {filteredAdvocates.map((advocate) => {
                 return (
                     <AdvocateRow key={advocate.id} advocate={advocate}/>
