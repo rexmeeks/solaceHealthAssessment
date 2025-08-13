@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Advocate } from "@/app/types/advocate-types";
 import AdvocateTable from "@/app/components/AdvocateTable";
+import Header from "@/app/components/Header";
 import { applyFilters } from "@/app/utils/advocateFilter";
 import EmptyState from "@/app/components/EmptyState";
 
@@ -49,11 +50,10 @@ export default function Home() {
   };
 
   return (
-    <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
+    <>
+      <Header />
+      <main style={{ margin: "24px" }}>
+        <div>
         <p>Search</p>
         <input style={{ border: "1px solid black" }} onChange={onChange} value={searchTerm}/>
         <button className="ml-1 p-1 border hover:bg-[#acdcd0]" onClick={onClick}>Reset Search</button>
@@ -80,5 +80,6 @@ export default function Home() {
       <br />
       <br />
     </main>
+    </>
   );
 }
