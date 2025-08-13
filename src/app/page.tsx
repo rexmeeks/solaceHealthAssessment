@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Advocate } from "@/app/types/advocate-types";
 import AdvocateTable from "@/app/components/AdvocateTable";
 import Header from "@/app/components/Header";
+import Loading from "@/app/components/Loading";
 import { applyFilters } from "@/app/utils/advocateFilter";
 import EmptyState from "@/app/components/EmptyState";
 
@@ -14,6 +15,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [yearsFilter, setYearsFilter] = useState<string>('');
   const [filteredAdvocates, setFilteredAdvocates] = useState<Array<Advocate>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     console.log("fetching advocates...");
@@ -21,6 +23,7 @@ export default function Home() {
       response.json().then((jsonResponse) => {
         setAdvocates(jsonResponse.data);
         setFilteredAdvocates(jsonResponse.data);
+        setIsLoading(false);
       });
     });
   }, []);
@@ -72,11 +75,11 @@ export default function Home() {
           </select>
         </div>
       </div>
-      {filteredAdvocates.length === 0 && (searchTerm || yearsFilter) ? (
-        <EmptyState onReset={onClick} />
-      ) : (
-        <AdvocateTable filteredAdvocates={filteredAdvocates}/>
-      )}
+      {(() => {
+        if (isLoading) return <Loading />;
+        if (filteredAdvocates.length === 0 && (searchTerm || yearsFilter)) return <EmptyState onReset={onClick} />;
+        return <AdvocateTable filteredAdvocates={filteredAdvocates}/>;
+      })()}
       <br />
       <br />
     </main>
