@@ -4,7 +4,6 @@ type AdvocateRowProps = {
     advocate: Advocate;
 }
 
-// todo maybe change key, but this is probably fine
 const AdvocateRow = ({advocate}: AdvocateRowProps) => {
     return (
         <tr className="border">
