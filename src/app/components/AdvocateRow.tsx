@@ -17,7 +17,7 @@ const AdvocateRow = ({advocate}: AdvocateRowProps) => {
                 ))}
             </td>
             <td>{advocate.yearsOfExperience}</td>
-            <td>{advocate.phoneNumber}</td>
+            <td><a href={`tel:${advocate.phoneNumber}`}>{advocate.phoneNumber}</a></td>
         </tr>
     )
 }
