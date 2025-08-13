@@ -1,5 +1,6 @@
 import db from "..";
 import { advocates } from "../schema";
+import {randomUUID} from "node:crypto";
 
 const specialties = [
   "Bipolar",
