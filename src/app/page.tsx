@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Advocate } from "@/app/types/advocate-types";
 import AdvocateTable from "@/app/components/AdvocateTable";
 import { applyFilters } from "@/app/utils/advocateFilter";
+import EmptyState from "@/app/components/EmptyState";
 
 // got rid of the searching for as I think it's redundant considering if when the user types the table changes
 // it should be enough to communicate to the user that what's in the box is what they're searching for
@@ -71,7 +72,11 @@ export default function Home() {
           </select>
         </div>
       </div>
-      <AdvocateTable filteredAdvocates={filteredAdvocates}/>
+      {filteredAdvocates.length === 0 && (searchTerm || yearsFilter) ? (
+        <EmptyState onReset={onClick} />
+      ) : (
+        <AdvocateTable filteredAdvocates={filteredAdvocates}/>
+      )}
       <br />
       <br />
     </main>
